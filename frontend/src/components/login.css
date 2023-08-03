@@ -44,3 +44,29 @@ input:focus ~ i{
     50%{background-size:calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%}
     66%{background-size:calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%  }
 }
+*::-webkit-scrollbar-thumb {
+  background-color: #f1f1f1;
+  border-radius: 8px;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #f1f1f1;
+}
+
+/* Visible Scrollbar for IE, Edge, and Firefox */
+.visible-scrollbar {
+  scrollbar-width: thin;
+  /* Firefox */
+  scrollbar-color: #f1f1f1 #888;
+  /* Firefox */
+}
+
+.visible-scrollbar:hover {
+  scrollbar-color: #f1f1f1 #555;
+  /* Firefox */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
