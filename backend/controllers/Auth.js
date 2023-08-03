@@ -98,13 +98,13 @@ const Login = async (req, res) => {
         if (!validPssword) return res.status(400).json("Incorrect email or password")
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRETE_KEY, {
-            expiresIn: "30m"
+            expiresIn: "2d"
         });  //temporary secrete key
 
         const { password, updatedAt, ...others } = user._doc;
 
         res.cookie("accessToken", token, {
-            expires: new Date(Date.now() + 1000 * 60 * 35),  //to expire after 35 minutes
+            expires: new Date(Date.now() + 1000 * 60 * 2880),  //to expire after 35 minutes
             httpOnly: true,
         }).status(200).json(others);
     } catch (err) {

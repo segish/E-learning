@@ -43,12 +43,12 @@ const login = async (req, res) => {
         const validPssword = await bcrypt.compare(req.body.password, admin.password)
         if (!validPssword) return res.status(400).json("Incorect emiail or password")
         const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRETE_KEY, {
-            expiresIn: "30m"
+            expiresIn: "1d"
         });  //temporary secrete key
         const { password, updatedAt, adminName, email, ...others } = admin._doc;
 
         res.cookie("accessToken", token, {
-            expires: new Date(Date.now() + 1000 * 60 * 35),  //to expire after 30 minutes
+            expires: new Date(Date.now() + 1000 * 60 * 1440),  //to expire after 30 minutes
             httpOnly: true,
         }).status(200).json(others);
     } catch (err) {

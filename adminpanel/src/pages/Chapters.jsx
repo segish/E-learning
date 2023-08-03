@@ -182,7 +182,7 @@ const Chapters = () => {
           </div>
           <div className=" flex-col flex items-start m-4 w-full lg:w-2/5">
             <label className="font-bold text-lg">Youtube link</label>
-            <input type="text" name="youtubeLink" className="dark:bg-slate-800 border-b-2 dark:border-gray-500  p-3 px-1 w-full  rounded-md text-lg" placeholder="youtube.com/courselink" onChange={handleAddChange} />
+            <input type="text" name="youtubeLink" className="dark:bg-slate-800 border-b-2 dark:border-gray-500  p-3 px-1 w-full  rounded-md text-lg" placeholder="https://www.youtube.com/embed/GVGeTshQ7iU" onChange={handleAddChange} />
           </div>
           <div className=" flex-col flex items-start m-4 w-full lg:w-2/5">
             <label className="font-bold text-lg">Course Type</label>

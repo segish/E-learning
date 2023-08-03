@@ -18,6 +18,9 @@ const CourseSchema = new mongoose.Schema({
         type:String,
         default:"free"
     },
+    banner: {
+        type: String,
+    },
     section:[{
         title:String,
         type:{

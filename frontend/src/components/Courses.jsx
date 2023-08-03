@@ -11,7 +11,7 @@ const Courses = () => {
 
   const navigate = useNavigate();
 
-  const { currentUser,refreshLogin } = useContext(AuthContext);
+  const { currentUser, refreshLogin } = useContext(AuthContext);
 
   const [courseCategorie, setCourseCategorie] = useState([])
   const [response, setResponse] = useState([]);
@@ -27,7 +27,7 @@ const Courses = () => {
       gridview.classList.remove('grid');
       gridview.classList.add('visible')
       try {
-        const cataresponse =await makeRequest.get('courses/categories')
+        const cataresponse = await makeRequest.get('courses/categories')
         setCourseCategorie(cataresponse.data)
         setActive(cataresponse?.data[0])
         const couresponse = await makeRequest.get("courses/all/" + cataresponse?.data[0]);
@@ -63,22 +63,22 @@ const Courses = () => {
 
   const toCoursePage = (courseId) => {
     if (!currentUser) {
-      console.log("@you must login")
+      console.log("you must login")
       refreshLogin(true)
     } else {
       navigate("/course/" + courseId)
     }
   }
 
-  const send = (e,type,id) => {
+  const send = (e, type, id) => {
     if (!currentUser) {
-      console.log("@you must login")
+      console.log("you must login")
       refreshLogin(true)
-    } 
-    else if (type ==="premium" && currentUser?.paymentStatus==="free"){
+    }
+    else if (type === "premium" && currentUser?.paymentStatus === "free") {
       setPopup(true)
-    }else{
-     toCoursePage(id)
+    } else {
+      toCoursePage(id)
     }
   }
 
@@ -96,11 +96,20 @@ const Courses = () => {
         <div className='flex duration-500 scroll-smooth' id='container'>
           <div className='flex gap-4 justify-center items-center w-full'>
             <div className='w-screen pr-16 hidden gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' id='gridview'>
-              {response.map(Course => (
-                <div className='text-left flex flex-col border border-gray-300 p-7 rounded-md shadow-md'>
-                  <h2 className='text-2xl font-bold mb-2 '>{Course.title}</h2>
-                  <h3 className='mb-3'>{Course.descreption}</h3>
-                  <button className='px-8 mx-6 py-3' onClick={(e)=>send(e,Course.type,Course._id)}>More Info</button>
+              {response?.map(Course => (
+                <div className='text-left flex flex-col border border-gray-300 p-4 rounded-md shadow-md relative'>
+                  <h2 className='text-2xl text-center -mt-4 font-bold mb-2 underline'>{Course.title}</h2>
+                  <h6 className='absolute top-0 right-0 text-xs text-red-600 rounded-sm m-1'>{Course.type}</h6>
+                  <img src={Course.banner} alt="" className={Course.banner&&'h-36 rounded-md'} />
+                  <h3 className='mb-3'>
+                    {Course.descreption.split(' ').slice(0, 42).join(' ')}
+                    {Course.descreption.split(' ').length > 42 ? '......' : ''}
+                  </h3>
+                  <div className="flex items-center justify-center">
+                    <h2 className='text-xl text-center -mt-4 mb-2'>instructor&nbsp;:&nbsp;</h2>
+                    <h2 className='text-xl text-orange-600 text-center -mt-4 font-bold mb-2'> {Course.instructor}</h2>
+                  </div>
+                  <button className='px-8 mx-6 py-3' onClick={(e) => send(e, Course.type, Course._id)}>More Info</button>
                 </div>
               ))
               }
@@ -112,7 +121,7 @@ const Courses = () => {
       <div className='flex  m-4 pt-20'>
         <div className='h-[200px] w-full bg-gradient-to-r from-orange-700 to-orange-400 rounded-lg object-cover' alt="" />
       </div>
-      {popup&&<div className='fixed top-0 bottom-0 w-[100%] z-[999999999999]'><PopUp setPopup={setPopup} /></div>}
+      {popup && <div className='fixed top-0 bottom-0 w-[100%] z-[999999999999]'><PopUp setPopup={setPopup} /></div>}
     </div>
   );
 };

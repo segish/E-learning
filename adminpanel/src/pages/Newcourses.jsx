@@ -1,8 +1,9 @@
 import { useState } from "react"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { makeRequest } from "../axios";
 import Popup from '../Components/Popup';
 import ConfirmationPopup from '../Components/ConfirmationPopup';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 const Newcourses = () => {
 
@@ -17,6 +18,18 @@ const Newcourses = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [showConfPopup, setShowConfPopup] = useState(false)
 
+    const covertToBase64=(e) => {
+        var reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        console.log("reader.result")
+        reader.onload = () => {
+            setcourse((prev) => ({ ...prev, banner: reader.result }))
+            console.log(reader.result)
+        };
+        reader.onerror = error => {
+            console.log(error);
+        };
+    }
     const addmutation = useMutation(
         (course) => {
             return makeRequest.post("courses/add", course);
@@ -27,6 +40,12 @@ const Newcourses = () => {
                 queryClient.invalidateQueries(["chapters"]);
             },
         }
+    );
+
+    const { data } = useQuery(["instructors"], () =>
+        makeRequest.get("instructors/getall").then((res) => {
+            return res.data;
+        })
     );
 
     const handleValueChange = (event) => {
@@ -75,7 +94,13 @@ const Newcourses = () => {
                             </div>
                             <div className=" flex  flex-col items-start m-4 w-full lg:w-2/5">
                                 <label className="font-bold text-lg">Instructor</label>
-                                <input className="dark:bg-slate-800 border-b-2 dark:border-gray-500  p-3 px-1 w-full rounded-md text-lg" type="text" name="instructor" placeholder="Instructor name" onChange={handleCourses} />
+                                <select id="selectInput " value={course?.instructor} onChange={handleCourses} className="dark:bg-slate-800 border-b-2 dark:border-gray-500  p-3 px-1 w-full rounded-md text-lg" name="instructor">
+                                    {data?.map(instructors => (
+                                        data?.length===0?<option className="dark:bg-slate-900 text-lg text-center" value="">No instruct available</option>
+                                        :<option className="dark:bg-slate-900 text-lg text-center" value={instructors.firstName + " " + instructors.lastName}>{instructors.firstName + " " + instructors.lastName}</option>
+                                    ))
+                                    }
+                                </select>
                             </div>
                             <div className=" flex  flex-col items-start m-4 w-full lg:w-2/5">
                                 <label className="font-bold text-lg">Descreption</label>
@@ -87,6 +112,11 @@ const Newcourses = () => {
                                     <option className="dark:bg-slate-900 text-lg text-center" value="free">free</option>
                                     <option className="dark:bg-slate-900 text-lg text-center" value="premium">premium</option>
                                 </select>
+                            </div>
+                            <div className="flex-col flex items-start m-4 w-full p-4 lg:w-2/5 border-2 rounded-md">
+                                <label htmlFor="coursebannerupload" className="font-bold text-lg cursor-pointer"><AddPhotoAlternateIcon fontSize="large" />course banner</label>
+                                <input name="banner" id="coursebannerupload" accept="image/star" onChange={covertToBase64} className="dark:bg-slate-800 hidden dark:border-gray-500  w-full px-1" type="file" />
+                                <img className={course.banner && "h-36 w-full rounded-sm object-cover cursor-pointer"} src={course?.banner} alt="" />
                             </div>
                         </div>
                         <span className="w-full text-center text-4xl font-bold underline">Chapters</span>
@@ -105,10 +135,10 @@ const Newcourses = () => {
                                         </div>
                                         <div className=" flex  flex-col w-full">
                                             <label name="link" className="font-bold text-lg">Youtube link</label>
-                                            <input onChange={(e) => handleChange(index, e)} className="dark:bg-slate-800 border-b-2 dark:border-gray-500  p-3 px-1 w-full rounded-md text-lg" type="text" name="youtubeLink" placeholder="youtube.com/courselink" />
+                                            <input onChange={(e) => handleChange(index, e)} className="dark:bg-slate-800 border-b-2 dark:border-gray-500  p-3 px-1 w-full rounded-md text-lg" type="text" name="youtubeLink" placeholder="https://www.youtube.com/embed/GVGeTshQ7iU" />
                                         </div>
                                         <div className=" flex  flex-col w-full">
-                                            <label className="font-bold text-lg">Course Type</label>
+                                            <label className="font-bold text-lg">chapter Type</label>
                                             <select id="selectInputchapter" value={chapters[index].type} onChange={(e) => handleChange(index, e)} className="dark:bg-slate-800 border-b-2 dark:border-gray-500  p-3 px-1 w-full rounded-md text-lg" name="type">
                                                 <option className="dark:bg-slate-900 text-lg text-center" value="free">free</option>
                                                 <option className="dark:bg-slate-900 text-lg text-center" value="premium">premium</option>

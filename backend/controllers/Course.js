@@ -7,7 +7,7 @@ dotenv.config();
 const GetAll = async (req, res) => {
     try {
         const course = await Course.find();
-        const { type, section, updatedAt, ...others } = course._doc;
+        const { section, updatedAt, ...others } = course._doc;
         res.status(200).json(others);
     } catch (err) {
         res.status(500).json("somthing went wrong!");
@@ -30,7 +30,7 @@ const GetByCatgory = async (req, res) => {
         const course = await Course.find({ category: req.params.category });
 
         const filteredCourse = course.map(obj => {
-            const { type, section, updatedAt, ...rest } = obj._doc; 
+            const { section, updatedAt, ...rest } = obj._doc; 
             return rest;
           });
           

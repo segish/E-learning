@@ -6,7 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 import { makeRequest } from '../axios';
 const MenuItems = ({ showMenu, active, setRegister }) => {
   const { refreshLogin } = useContext(AuthContext)
-  const {currentUser, refreshUser} = useContext(AuthContext)
+  const { currentUser, refreshUser } = useContext(AuthContext)
 
 
   const handleLogout = async () => {
@@ -29,7 +29,6 @@ const MenuItems = ({ showMenu, active, setRegister }) => {
 
       <li className='border-b-2 border-zinc-500 w-full'><a href="/" className=' hover:text-orange-500  cursor-pointer'>Home</a></li>
       <li className='border-b-2 border-zinc-500 w-full'><a href="/#cors" className=' hover:text-orange-500 cursor-pointer'>Courses</a></li>
-      <li className='border-b-2 border-zinc-500 w-full'><a href="/#mem" className=' hover:text-orange-500 cursor-pointer'>Membership</a></li>
       <li className='border-b-2 border-zinc-500 w-full'><a href="/#inst" className=' hover:text-orange-500 cursor-pointer'>Instructors</a></li>
       <li className='border-b-2 border-zinc-500 w-full'><Link to="/AboutUs" className=' hover:text-orange-500'>About Us</Link></li>
       <div className='flex flex-col my-4'>

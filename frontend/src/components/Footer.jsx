@@ -3,7 +3,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
-
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -44,11 +44,11 @@ const Footer = () => {
           <div className='flex flex-col'>
             <h6 className='font-medium text-white'>Company</h6>
             <ul>
-              <li className='py-2 text-sm'>About</li>
-              <li className='py-2 text-sm'>Blog</li>
-              <li className='py-2 text-sm'>Jobs</li>
-              <li className='py-2 text-sm'>Press</li>
-              <li className='py-2 text-sm'>Careers</li>
+              <Link to="/AboutUs"><li className='cursor-pointer py-2 text-sm'>About</li></Link>
+              <li className='cursor-pointer py-2 text-sm'>Blog</li>
+              <li className='cursor-pointer py-2 text-sm'>Jobs</li>
+              <li className='cursor-pointer py-2 text-sm'>Press</li>
+              <li className='cursor-pointer py-2 text-sm'>Careers</li>
             </ul>
           </div>
           <div className='flex flex-col'>
