@@ -17,7 +17,7 @@ const Chapters = () => {
 
   const queryClient = useQueryClient();
 
-  const [Chapters, SetChapters] = useState([])
+  const [Chapters, SetChapters] = useState()
 
   const [Addchapters, setAddchapters] = useState([])
 
@@ -47,7 +47,7 @@ const Chapters = () => {
     e.preventDefault();
     setShowPopupADD(true);
   };
-  
+
   const mutation = useMutation(
     (updatechapters) => {
       return makeRequest.post("courses/updatechapter/" + courseID, updatechapters);
@@ -109,7 +109,7 @@ const Chapters = () => {
     SetChapters(updatedArray)
   }
 
-  const handleUpdateSubmit = (e,index) => {
+  const handleUpdateSubmit = (e, index) => {
     e.preventDefault()
     mutation.mutate(Chapters[index])
     setChapterIndex(null)
@@ -159,7 +159,12 @@ const Chapters = () => {
                       key={row._id}>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950'>{row._id}</TableCell>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950' ><input name="title" className="dark:bg-slate-700 h-12 border-2 rounded-md p-2" type="text" defaultValue={row.title} onChange={(e) => handlechange(e, index)} /> </TableCell>
-                      <TableCell className=' dark:text-gray-200 dark:bg-slate-950' > <input name="type" className="dark:bg-slate-700 h-12 border-2 rounded-md p-2" type="text" defaultValue={row.type} onChange={(e) => handlechange(e, index)} /></TableCell>
+                      <TableCell className=' dark:text-gray-200 dark:bg-slate-950' >
+                        <select value={Chapters ? Chapters[index].type : null} onChange={(e) => handlechange(e, index)} className="dark:bg-slate-700 h-12 border-2 rounded-md p-2" name="type">
+                          <option className="dark:bg-slate-900 text-lg text-center" value="free">free</option>
+                          <option className="dark:bg-slate-900 text-lg text-center" value="premium">premium</option>
+                        </select>
+                      </TableCell>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950 '><textarea name="descreption" className="dark:bg-slate-700 h-12 border-2 rounded-md p-2 hover:h-24" rows={3} cols={30} defaultValue={row.descreption} onChange={(e) => handlechange(e, index)} /></TableCell>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950 '><input name="youtubeLink" className="dark:bg-slate-700 h-12 border-2 rounded-md p-2" type="text" defaultValue={`${row.youtubeLink}`} onChange={(e) => handlechange(e, index)} /></TableCell>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950  '><button className="border-2 rounded-md border-purple-600 p-3" onClick={(e) => showUpdatePopup(e, index)}>update</button> </TableCell>

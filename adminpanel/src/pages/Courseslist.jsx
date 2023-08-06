@@ -17,7 +17,7 @@ const Courseslist = () => {
 
   const queryClient = useQueryClient();
 
-  const [Courseslist, SetCourseslist] = useState([])
+  const [Courseslist, SetCourseslist] = useState()
   const [showConfPopup, setShowConfPopup] = useState(false);
   const [showConfPopupdelete, setShowConfPopupdelete] = useState(false);
 
@@ -31,7 +31,7 @@ const Courseslist = () => {
     setdeletedId(id)
     setShowPopupdelete(true);
   };
-  const showpopupUpdate = (e,index) => {
+  const showpopupUpdate = (e, index) => {
     e.preventDefault()
     setShowPopup(true)
     SetCourseIndex(index)
@@ -81,7 +81,7 @@ const Courseslist = () => {
     SetCourseslist(updatedArray)
   }
 
-  const handleSubmit = (e,index) => {
+  const handleSubmit = (e, index) => {
     e.preventDefault()
     mutation.mutate(Courseslist[index])
     SetCourseIndex(false)
@@ -132,9 +132,14 @@ const Courseslist = () => {
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950' > <input name="category" className="dark:bg-slate-700 h-12 border-2 rounded-md p-2" type="text" defaultValue={row.category} onChange={(e) => handlechange(e, index)} /></TableCell>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950 '><textarea name="descreption" className="dark:bg-slate-700 h-12 border-2 rounded-md p-2 hover:h-24" rows={3} cols={30} defaultValue={row.descreption} onChange={(e) => handlechange(e, index)} /></TableCell>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950 '><input name="instructor" className="dark:bg-slate-700 h-12 border-2 rounded-md p-2" type="text" defaultValue={row.instructor} onChange={(e) => handlechange(e, index)} /></TableCell>
-                      <TableCell className=' dark:text-gray-200 dark:bg-slate-950 '><input name="type" className="dark:bg-slate-700 h-12 border-2 rounded-md p-2" type="text" defaultValue={row.type} onChange={(e) => handlechange(e, index)} /></TableCell>
+                      <TableCell className=' dark:text-gray-200 dark:bg-slate-950 '>
+                        <select value={Courseslist ? Courseslist[index].type : null} onChange={(e) => handlechange(e, index)} className="dark:bg-slate-700 h-12 border-2 rounded-md p-2" name="type">
+                          <option className="dark:bg-slate-900 text-lg text-center" value="free">free</option>
+                          <option className="dark:bg-slate-900 text-lg text-center" value="premium">premium</option>
+                        </select>
+                      </TableCell>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950 '><Link to={"/courses/" + row._id}><div className="" > +<EditIcon className="w-3 h-1" /> {row.section.length}</div></Link></TableCell>
-                      <TableCell className=' dark:text-gray-200 dark:bg-slate-950  '><button className="border-2 rounded-md border-purple-600 p-3" onClick={(e) => showpopupUpdate(e,index)}>update</button> </TableCell>
+                      <TableCell className=' dark:text-gray-200 dark:bg-slate-950  '><button className="border-2 rounded-md border-purple-600 p-3" onClick={(e) => showpopupUpdate(e, index)}>update</button> </TableCell>
                       <TableCell className=' dark:text-gray-200 dark:bg-slate-950  '><button className="border-2 rounded-md border-red-600 p-3" onClick={(e) => showConfirmationPopup(e, row._id)} >delete</button> </TableCell>
                     </TableRow>
                   ))
@@ -153,7 +158,7 @@ const Courseslist = () => {
       </div>
       <div className="absolute top-1/3 left-1/3">
         {showPopup && (
-          <Popup onConfirm={(e) => handleSubmit(e,CourseIndex)} onCancel={() => setShowPopup(false)} message={"Do You Want To Update This Item ?"} />
+          <Popup onConfirm={(e) => handleSubmit(e, CourseIndex)} onCancel={() => setShowPopup(false)} message={"Do You Want To Update This Item ?"} />
         )}
         {showConfPopup && (
           <ConfirmationPopup onCancel={() => setShowConfPopup(false)} confmessage={"Item Updated successfully"} />
